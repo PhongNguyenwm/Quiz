@@ -16,6 +16,14 @@ class MyComponent extends React.Component {
     console.log(e.pageX);
   };
 
+  handleOnchangeInput = (e) => {
+    this.setState({ name: e.target.value });
+  };
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+  };
+
   // JSX
   render() {
     return (
@@ -29,6 +37,10 @@ class MyComponent extends React.Component {
         >
           Click me
         </button>
+        <form onSubmit={(e) => this.handleOnSubmit(e)}>
+          <input type="text" onChange={(e) => this.handleOnchangeInput(e)} />
+          <button>Submit</button>
+        </form>
       </div>
     );
   }

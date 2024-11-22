@@ -9,6 +9,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import User from "./components/User/User";
 import Admin from "./components/Admin/Admin";
 import HomePage from "./components/Home/HomePage";
+import DashBoard from "./components/Admin/Content/DashBoard";
+import ManageUser from "./components/Admin/Content/ManageUser";
 
 const router = createBrowserRouter(
   [
@@ -29,6 +31,10 @@ const router = createBrowserRouter(
     {
       path: "admins",
       element: <Admin />,
+      children: [
+        { index: true, element: <DashBoard /> },
+        { path: "manage-users", element: <ManageUser /> },
+      ],
     },
   ],
   {

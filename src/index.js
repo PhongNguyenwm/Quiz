@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import User from "./components/User/User";
 import Admin from "./components/Admin/Admin";
+import HomePage from "./components/Home/HomePage";
 
 const router = createBrowserRouter(
   [
@@ -15,6 +16,10 @@ const router = createBrowserRouter(
       path: "/",
       element: <App />,
       children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
         {
           path: "users",
           element: <User />,

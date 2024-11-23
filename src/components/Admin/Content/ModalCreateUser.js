@@ -14,7 +14,7 @@ const ModalCreateUser = (props) => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("USER");
-  const [img, setImg] = useState("");
+  const [img, setImg] = useState(null);
   const [previewImg, setPreviewImg] = useState("");
 
   const handleClose = () => {
@@ -23,7 +23,7 @@ const ModalCreateUser = (props) => {
     setPassword("");
     setUsername("");
     setRole("USER");
-    setImg("");
+    setImg(null);
     setPreviewImg("");
   };
 

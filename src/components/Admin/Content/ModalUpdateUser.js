@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { FcPlus } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { postCreateNewUser } from "../../../services/apiService";
+import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
 
 const ModalUpdateUser = (props) => {
@@ -15,35 +15,34 @@ const ModalUpdateUser = (props) => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("USER");
-  const [img, setImg] = useState("");
+  const [img, setImg] = useState(null);
   const [previewImg, setPreviewImg] = useState("");
 
-  console.log(dataUpdate);
   const handleClose = () => {
     setShow(false);
     setEmail("");
     setPassword("");
     setUsername("");
     setRole("USER");
-    setImg("");
+    setImg(null);
     setPreviewImg("");
+    props.resetDataUpdate();
   };
 
-  useEffect(
-    (params) => {
-      if (!_.isEmpty(dataUpdate)) {
-        setEmail(dataUpdate.email);
-        setPassword(dataUpdate.password);
-        setUsername(dataUpdate.username);
-        setRole(dataUpdate.role);
-        setImg("");
-        if (dataUpdate.image) {
-          setPreviewImg(`data:image/jpeg;base64,${dataUpdate.image}`);
-        }
+  useEffect(() => {
+    if (!_.isEmpty(dataUpdate)) {
+      setEmail(dataUpdate.email || "");
+      setPassword(dataUpdate.password || "");
+      setUsername(dataUpdate.username || "");
+      setRole(dataUpdate.role || "USER");
+      setImg("");
+      if (dataUpdate.image) {
+        setPreviewImg(
+          dataUpdate.image ? `data:image/jpeg;base64,${dataUpdate.image}` : ""
+        );
       }
-    },
-    [dataUpdate]
-  );
+    }
+  }, [dataUpdate]);
 
   const handleUploadImg = (e) => {
     if (e.target && e.target.files[0]) {
@@ -52,27 +51,8 @@ const ModalUpdateUser = (props) => {
     }
   };
 
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-
   const handleSubmitCreateUser = async () => {
-    // validate
-    const isValidEmail = validateEmail(email);
-    if (!isValidEmail) {
-      toast.error("Invalid email");
-      return;
-    }
-    if (!password) {
-      toast.error("Password is required");
-      return;
-    }
-
-    let res = await postCreateNewUser(email, password, username, role, img);
+    let res = await putUpdateUser(dataUpdate.id, username, role, img);
     if (res && res.data.EC === 0) {
       toast.success(res.data.EM);
       handleClose();
@@ -103,7 +83,7 @@ const ModalUpdateUser = (props) => {
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
-                  value={email}
+                  value={email || ""}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled
                 />
@@ -114,7 +94,7 @@ const ModalUpdateUser = (props) => {
                 <Form.Control
                   type="password"
                   placeholder="Password"
-                  value={password}
+                  value={password || ""}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled
                 />
@@ -124,14 +104,14 @@ const ModalUpdateUser = (props) => {
                 <Form.Control
                   type="text"
                   placeholder="Enter username"
-                  value={username}
+                  value={username || ""}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </Form.Group>
               <Form.Group className="col-md-4 my-3" as={Col}>
                 <Form.Label>Role</Form.Label>
                 <Form.Select
-                  value={role}
+                  value={role || "USER"}
                   onChange={(e) => setRole(e.target.value)}
                 >
                   <option value={"USER"}>USER</option>

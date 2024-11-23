@@ -28,7 +28,12 @@ const TableUser = (props) => {
                   <td>{item.role}</td>
                   <td className="d-flex flex-start">
                     <button className="btn btn-info">View</button>
-                    <button className="btn btn-warning mx-3">Update</button>
+                    <button
+                      className="btn btn-warning mx-3"
+                      onClick={() => props.hanldeClickBtnUpdate(item)}
+                    >
+                      Update
+                    </button>
                     <button className="btn btn-danger">Delete</button>
                   </td>
                 </tr>

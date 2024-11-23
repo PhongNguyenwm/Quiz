@@ -5,17 +5,14 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { FcPlus } from "react-icons/fc";
-import { toast } from "react-toastify";
-import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
 
-const ModalUpdateUser = (props) => {
+const ModalViewUser = (props) => {
   const { show, setShow, dataUpdate } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("USER");
-  const [img, setImg] = useState(null);
   const [previewImg, setPreviewImg] = useState("");
 
   const handleClose = () => {
@@ -24,7 +21,6 @@ const ModalUpdateUser = (props) => {
     setPassword("");
     setUsername("");
     setRole("USER");
-    setImg(null);
     setPreviewImg("");
     props.resetDataUpdate();
   };
@@ -35,7 +31,6 @@ const ModalUpdateUser = (props) => {
       setPassword(dataUpdate.password || "");
       setUsername(dataUpdate.username || "");
       setRole(dataUpdate.role || "USER");
-      setImg("");
       if (dataUpdate.image) {
         setPreviewImg(
           dataUpdate.image ? `data:image/jpeg;base64,${dataUpdate.image}` : ""
@@ -43,25 +38,6 @@ const ModalUpdateUser = (props) => {
       }
     }
   }, [dataUpdate]);
-
-  const handleUploadImg = (e) => {
-    if (e.target && e.target.files[0]) {
-      setPreviewImg(URL.createObjectURL(e.target.files[0]));
-      setImg(e.target.files[0]);
-    }
-  };
-
-  const handleSubmitUpdateUser = async () => {
-    let res = await putUpdateUser(dataUpdate.id, username, role, img);
-    if (res && res.data.EC === 0) {
-      toast.success(res.data.EM);
-      handleClose();
-      await props.fetchListUsers();
-    }
-    if (res && res.data.EC !== 0) {
-      toast.error(res.data.EM);
-    }
-  };
 
   return (
     <>
@@ -73,7 +49,7 @@ const ModalUpdateUser = (props) => {
         className="modal-add-user"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update user</Modal.Title>
+          <Modal.Title>View detail user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -106,6 +82,7 @@ const ModalUpdateUser = (props) => {
                   placeholder="Enter username"
                   value={username || ""}
                   onChange={(e) => setUsername(e.target.value)}
+                  disabled
                 />
               </Form.Group>
               <Form.Group className="col-md-4 my-3" as={Col}>
@@ -113,22 +90,21 @@ const ModalUpdateUser = (props) => {
                 <Form.Select
                   value={role || "USER"}
                   onChange={(e) => setRole(e.target.value)}
+                  disabled
                 >
                   <option value={"USER"}>USER</option>
                   <option value={"ADMIN"}>ADMIN</option>
                 </Form.Select>
               </Form.Group>
               <Form.Group className="col-md-12" as={Col}>
-                <Form.Label className="label-upload" htmlFor="labelUpload">
+                <Form.Label
+                  className="label-upload"
+                  style={{ pointerEvents: "none" }}
+                >
                   <FcPlus />
                   Upload file image
                 </Form.Label>
-                <Form.Control
-                  type="file"
-                  hidden
-                  id="labelUpload"
-                  onChange={(e) => handleUploadImg(e)}
-                />
+                <Form.Control type="file" hidden id="labelUpload" disabled />
               </Form.Group>
               <div className="col-md-12 img-preview">
                 {previewImg ? (
@@ -144,12 +120,9 @@ const ModalUpdateUser = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleSubmitUpdateUser()}>
-            Save
-          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
-export default ModalUpdateUser;
+export default ModalViewUser;

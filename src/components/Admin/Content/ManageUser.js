@@ -6,11 +6,13 @@ import TableUser from "./TableUser";
 import { getListUsers } from "../../../services/apiService";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
+import ModalDeleteUser from "./ModalDeleteUser";
 
 const ManageUser = (props) => {
   const [showModalCreateUser, setShowModalCreateUser] = useState(false);
   const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
   const [showModalViewUser, setShowModalViewUser] = useState(false);
+  const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
   const [listUsers, setListUsers] = useState([]);
   const [dataUpdate, setDataUpdate] = useState({});
 
@@ -39,6 +41,11 @@ const ManageUser = (props) => {
     setDataUpdate(user);
   };
 
+  const handleClickDeleteUser = (user) => {
+    setShowModalDeleteUser(true);
+    setDataUpdate(user);
+  };
+
   return (
     <div className="manage-user-container">
       <div className="title">Manage User</div>
@@ -56,6 +63,7 @@ const ManageUser = (props) => {
             listUsers={listUsers}
             hanldeClickBtnUpdate={hanldeClickBtnUpdate}
             handleClickViewUser={handleClickViewUser}
+            handleClickDeleteUser={handleClickDeleteUser}
           />
         </div>
         <ModalCreateUser
@@ -76,6 +84,13 @@ const ManageUser = (props) => {
           dataUpdate={dataUpdate}
           fetchListUsers={fetchListUsers}
           resetDataUpdate={resetDataUpdate}
+        />
+        <ModalDeleteUser
+          show={showModalDeleteUser}
+          setShow={setShowModalDeleteUser}
+          fetchListUsers={fetchListUsers}
+          resetDataUpdate={resetDataUpdate}
+          dataUpdate={dataUpdate}
         />
       </div>
     </div>

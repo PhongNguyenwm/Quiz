@@ -14,10 +14,11 @@ import sidebarBg from "../../assets/bg2.jpg";
 import { DiReact } from "react-icons/di";
 import { MdDashboard } from "react-icons/md";
 import "./SideBar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = (props) => {
   const { collapsed, toggled, handleToggleSidebar } = props;
+  const navigate = useNavigate();
   return (
     <>
       <ProSidebar
@@ -38,7 +39,9 @@ const SideBar = (props) => {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
+              cursor: "pointer",
             }}
+            onClick={() => navigate("/")}
           >
             <DiReact fontSize={"3em"} color={"#00bfff"} />
             <span>Quiz Systems</span>

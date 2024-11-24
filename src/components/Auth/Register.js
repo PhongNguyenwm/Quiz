@@ -2,20 +2,31 @@ import React, { useState } from "react";
 import "./Login.scss";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { postLogin } from "../../services/apiService";
+import { postRegister } from "../../services/apiService";
 import { toast } from "react-toastify";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-const Login = (props) => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const validateEmail = (email) => {
+    const emailRegex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return emailRegex.test(email);
+  };
+
+  const handleRegister = async () => {
     // validate
     if (!email) {
       toast.error("Email is required");
+      return;
+    }
+    if (!validateEmail(email)) {
+      toast.error("Invalid email format");
       return;
     }
     if (!password) {
@@ -23,10 +34,10 @@ const Login = (props) => {
       return;
     }
     // submit api
-    let res = await postLogin(email, password);
+    let res = await postRegister(email, password, username);
     if (res && res.data.EC === 0) {
       toast.success(res.data.EM);
-      navigate("/");
+      navigate("/login");
     }
     if (res && res.data.EC !== 0) {
       toast.error(res.data.EM);
@@ -36,14 +47,14 @@ const Login = (props) => {
   return (
     <div className="login-container">
       <div className="header">
-        <span>Don't have an account yet?</span>
-        <button onClick={() => navigate("/signup")}>Sign up</button>
+        <span>You have an account?</span>
+        <button onClick={() => navigate("/login")}>Login</button>
       </div>
-      <div className="title col-4 mx-auto">Login</div>
+      <div className="title col-4 mx-auto">Register</div>
       <div className="welcome col-4 mx-auto">Hello, who's this?</div>
       <form className="content-form col-4 mx-auto">
         <div className="form-group">
-          <label>Email</label>
+          <label>Email*</label>
           <input
             type="email"
             className="form-control"
@@ -53,13 +64,13 @@ const Login = (props) => {
           />
         </div>
         <div className="form-group password">
-          <label>Password</label>
+          <label>Password*</label>
           <input
             type={showPassword ? "text" : "password"}
             className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autoComplete="password"
+            autoComplete="new-password"
           />
           {showPassword ? (
             <IoMdEyeOff
@@ -70,10 +81,19 @@ const Login = (props) => {
             <IoMdEye className="eye" onClick={() => setShowPassword(true)} />
           )}
         </div>
-        <span className="forgot-password">Forgot password?</span>
+        <div className="form-group">
+          <label>Username</label>
+          <input
+            type="text"
+            className="form-control"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+          />
+        </div>
         <div>
-          <button className="btn-login" onClick={() => handleLogin()}>
-            Log in
+          <button className="btn-login" onClick={() => handleRegister()}>
+            Register
           </button>
         </div>
         <div className="back" onClick={() => navigate("/")}>
@@ -85,4 +105,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default Register;

@@ -65,5 +65,17 @@
       gap: 5px;
       cursor: pointer;
     }
+
+    .password {
+      position: relative;
+
+      .eye {
+        position: absolute;
+        right: 15px;
+        top: 40px;
+        font-size: 26px;
+        cursor: pointer;
+      }
+    }
   }
 }

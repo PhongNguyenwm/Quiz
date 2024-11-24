@@ -31,10 +31,15 @@ const getUserWithPaginate = (page, limit) => {
   return axios.get(`participant?page=${page}&limit=${limit}`);
 };
 
+const postLogin = (email, password) => {
+  return axios.post(`login`, { email, password });
+};
+
 export {
   postCreateNewUser,
   getListUsers,
   putUpdateUser,
   deleteUser,
   getUserWithPaginate,
+  postLogin,
 };

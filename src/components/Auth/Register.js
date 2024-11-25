@@ -92,7 +92,13 @@ const Register = () => {
           />
         </div>
         <div>
-          <button className="btn-login" onClick={() => handleRegister()}>
+          <button
+            className="btn-login"
+            onClick={(e) => {
+              e.preventDefault();
+              handleRegister();
+            }}
+          >
             Register
           </button>
         </div>

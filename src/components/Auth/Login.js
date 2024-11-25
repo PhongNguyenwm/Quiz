@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { postLogin } from "../../services/apiService";
 import { toast } from "react-toastify";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { doLogin } from "../../redux/action/userAction";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     // validate
@@ -25,6 +28,7 @@ const Login = (props) => {
     // submit api
     let res = await postLogin(email, password);
     if (res && res.data.EC === 0) {
+      dispatch(doLogin(res));
       toast.success(res.data.EM);
       navigate("/");
     }
@@ -72,7 +76,13 @@ const Login = (props) => {
         </div>
         <span className="forgot-password">Forgot password?</span>
         <div>
-          <button className="btn-login" onClick={() => handleLogin()}>
+          <button
+            className="btn-login"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+          >
             Log in
           </button>
         </div>

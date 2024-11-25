@@ -35,12 +35,12 @@ const Register = () => {
     }
     // submit api
     let res = await postRegister(email, password, username);
-    if (res && res.data.EC === 0) {
-      toast.success(res.data.EM);
+    if (res && res.EC === 0) {
+      toast.success(res.EM);
       navigate("/login");
     }
-    if (res && res.data.EC !== 0) {
-      toast.error(res.data.EM);
+    if (res && res.EC !== 0) {
+      toast.error(res.EM);
     }
   };
 

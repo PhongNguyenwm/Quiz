@@ -56,6 +56,12 @@
       &:hover {
         background: black;
       }
+
+      &:disabled {
+        background: #ddd;
+        color: #afafaf;
+        cursor: no-drop;
+      }
     }
 
     .back {
@@ -76,6 +82,22 @@
         font-size: 26px;
         cursor: pointer;
       }
+    }
+  }
+
+  .loader-icon {
+    font-size: 20px;
+    margin: 0 10px 3px 0;
+    color: #00d4ff;
+    animation: spin 1s infinite linear;
+  }
+
+  @keyframes spin {
+    from {
+      transform: scale(1) rotate(0deg);
+    }
+    to {
+      transform: scale(1) rotate(360deg);
     }
   }
 }

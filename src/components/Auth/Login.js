@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
+import { ImSpinner10 } from "react-icons/im";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const Login = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
     // validate
@@ -25,15 +27,20 @@ const Login = (props) => {
       toast.error("Password is required");
       return;
     }
+
+    setIsLoading(true);
+
     // submit api
     let res = await postLogin(email, password);
-    if (res && res.data.EC === 0) {
+    if (res && res.EC === 0) {
       dispatch(doLogin(res));
-      toast.success(res.data.EM);
+      toast.success(res.EM);
+      setIsLoading(false);
       navigate("/");
     }
-    if (res && res.data.EC !== 0) {
-      toast.error(res.data.EM);
+    if (res && res.EC !== 0) {
+      toast.error(res.EM);
+      setIsLoading(false);
     }
   };
 
@@ -82,8 +89,10 @@ const Login = (props) => {
               e.preventDefault();
               handleLogin();
             }}
+            disabled={isLoading}
           >
-            Log in
+            {isLoading === true && <ImSpinner10 className="loader-icon" />}
+            <span>Log in</span>
           </button>
         </div>
         <div className="back" onClick={() => navigate("/")}>

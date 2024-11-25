@@ -53,14 +53,14 @@ const ModalUpdateUser = (props) => {
 
   const handleSubmitUpdateUser = async () => {
     let res = await putUpdateUser(dataUpdate.id, username, role, img);
-    if (res && res.data.EC === 0) {
-      toast.success(res.data.EM);
+    if (res && res.EC === 0) {
+      toast.success(res.EM);
       handleClose();
       // await props.fetchListUsers();
       await props.fetchListUsersWithPaginate(props.currentPage);
     }
-    if (res && res.data.EC !== 0) {
-      toast.error(res.data.EM);
+    if (res && res.EC !== 0) {
+      toast.error(res.EM);
     }
   };
 

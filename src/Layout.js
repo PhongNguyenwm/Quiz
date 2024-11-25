@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import User from "./components/User/User";
+// import User from "./components/User/User";
 import Admin from "./components/Admin/Admin";
 import HomePage from "./components/Home/HomePage";
 import DashBoard from "./components/Admin/Content/DashBoard";
@@ -10,6 +10,7 @@ import App from "./App";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from "./components/Auth/Register";
+import ListQuiz from "./components/User/ListQuiz";
 
 const router = createBrowserRouter(
   [
@@ -23,7 +24,7 @@ const router = createBrowserRouter(
         },
         {
           path: "users",
-          element: <User />,
+          element: <ListQuiz />,
         },
       ],
     },

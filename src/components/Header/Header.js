@@ -10,7 +10,6 @@ const Header = () => {
   const isAuthenticated = useSelector(
     (state) => state.userInfo.isAuthenticated
   );
-  // const account = useSelector((state) => state.userInfo.account);
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">

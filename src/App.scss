@@ -70,18 +70,16 @@ body {
         font-size: 22px;
       }
       .homepage-btn {
-        button {
-          border-radius: 5px;
-          padding: 5px 20px;
-          background: #303030;
-          color: white;
-          height: 40px;
-          font-size: 18px;
-          border: none;
+        border-radius: 5px;
+        padding: 5px 20px;
+        background: #303030;
+        color: white;
+        height: 40px;
+        font-size: 18px;
+        border: none;
 
-          &:hover {
-            background: black;
-          }
+        &:hover {
+          background: black;
         }
       }
     }

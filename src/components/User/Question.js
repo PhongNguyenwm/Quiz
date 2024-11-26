@@ -1,19 +1,25 @@
 import _ from "lodash";
 import React from "react";
-import { Form } from "react-bootstrap";
 
 const Question = (props) => {
   const { data, currentQ } = props;
-  console.log(data);
   if (_.isEmpty(data)) {
     return <></>;
   }
+
+  const handleCheckbox = (e, aId, qId) => {
+    console.log("check:", e.target.checked, aId, qId);
+    props.handleCheckbox(aId, qId);
+  };
+
   return (
     <>
-      {data.img && (
+      {data.img ? (
         <div className="img">
           <img src={`data:image/jpeg;base64,${data.img}`} alt="" />
         </div>
+      ) : (
+        <div className="img"></div>
       )}
       <div className="question">
         Question {currentQ + 1}: {data.questionDesc}?
@@ -28,7 +34,10 @@ const Question = (props) => {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
+                    checked={item.isSelected}
+                    onChange={(e) =>
+                      handleCheckbox(e, item.id, data.questionId)
+                    }
                   />
                   <label className="form-check-label">{item.description}</label>
                 </div>

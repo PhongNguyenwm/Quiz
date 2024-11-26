@@ -27,8 +27,10 @@ const HomePage = (props) => {
             </button>
           </div>
         ) : (
-          <div className="homepage-btn" onClick={() => navigate("/login")}>
-            <button>Get's started. It's free.</button>
+          <div>
+            <button className="homepage-btn" onClick={() => navigate("/login")}>
+              Get's started. It's free.
+            </button>
           </div>
         )}
       </div>

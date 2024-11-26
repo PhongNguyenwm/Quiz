@@ -11,6 +11,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from "./components/Auth/Register";
 import ListQuiz from "./components/User/ListQuiz";
+import DetailQuiz from "./components/User/DetailQuiz";
+
+const NotFound = () => {
+  return (
+    <div className="container mt-3 alert alert-danger">
+      404. Page not found!
+    </div>
+  );
+};
 
 const router = createBrowserRouter(
   [
@@ -29,6 +38,10 @@ const router = createBrowserRouter(
       ],
     },
     {
+      path: "quiz/:id",
+      element: <DetailQuiz />,
+    },
+    {
       path: "admins",
       element: <Admin />,
       children: [
@@ -43,6 +56,10 @@ const router = createBrowserRouter(
     {
       path: "signup",
       element: <Register />,
+    },
+    {
+      path: "*",
+      element: <NotFound />,
     },
   ],
   {
